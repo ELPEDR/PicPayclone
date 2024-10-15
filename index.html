@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clone PicPay</title>
+
+  <!-- Fonte Google Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: var(--background-color);
+      color: var(--text-color);
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    /* Cabeçalho */
+    .header {
+      background-color: #34C759;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+    }
+
+    .header span {
+      font-size: 1.5em;
+    }
+
+    /* Seção de saldo */
+    .saldo-section {
+      background-color: var(--card-background);
+      padding: 20px;
+      border-radius: 20px;
+      margin: 20px;
+    }
+
+    .saldo-section h2 {
+      font-size: 1.2em;
+      color: #757575;
+    }
+
+    .saldo-section h1 {
+      font-size: 2.5em;
+      color: var(--text-color);
+      margin: 0;
+    }
+
+    .saldo-section .grana-total {
+      font-size: 1em;
+      color: #757575;
+    }
+
+    .btn-saldo {
+      margin-top: 10px;
+      padding: 10px 20px;
+      border-radius: 15px;
+      background-color: #F5F5F5;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      color: #757575;
+    }
+
+    /* Botões de Ação */
+    .acoes {
+      display: flex;
+      justify-content: space-around;
+      margin: 20px 0;
+    }
+
+    .acao-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 30%;
+      padding: 15px;
+      background-color: var(--card-background);
+      border-radius: 15px;
+    }
+
+    /* Botões de adicionar, remover e resetar dinheiro */
+    .btn-action {
+      margin-top: 10px;
+      padding: 12px 20px;
+      border-radius: 15px;
+      background-color: #34C759;
+      color: #fff;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .btn-action:hover {
+      background-color: #28A745;
+    }
+
+    .btn-action:active {
+      transform: scale(0.98);
+    }
+
+    /* Input */
+    input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      margin: 15px 0;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      font-size: 1em;
+      background-color: var(--input-background);
+      color: var(--text-color);
+    }
+
+    /* Botão de reset */
+    .btn-reset {
+      margin-top: 10px;
+      padding: 12px 20px;
+      border-radius: 15px;
+      background-color: #FF3B30;
+      color: #fff;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .btn-reset:hover {
+      background-color: #C2271C;
+    }
+
+    .btn-reset:active {
+      transform: scale(0.98);
+    }
+
+    /* Cartão de Débito */
+    .card-section {
+      background-color: var(--card-background);
+      padding: 20px;
+      border-radius: 20px;
+      margin: 20px;
+    }
+
+    .card-section h3 {
+      font-size: 1.2em;
+      color: var(--text-color);
+    }
+
+    .btn-cartao {
+      margin-top: 10px;
+      padding: 10px 20px;
+      border-radius: 15px;
+      background-color: var(--button-background);
+      color: var(--button-text-color);
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    /* Rodapé de Navegação */
+    .footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: white;
+      border-top: 1px solid #ddd;
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0;
+      background-color: var(--footer-background);
+    }
+
+    .footer-item {
+      text-align: center;
+      font-size: 0.9em;
+      color: var(--text-color);
+    }
+
+    /* Definições para tema claro */
+    :root {
+      --background-color: #f5f5f5;
+      --text-color: #000000;
+      --card-background: #E6EFEF;
+      --input-background: #ffffff;
+      --button-background: #000000;
+      --button-text-color: #ffffff;
+      --footer-background: #ffffff;
+    }
+
+    /* Definições para tema escuro */
+    [data-theme="dark"] {
+      --background-color: #1e1e1e;
+      --text-color: #ffffff;
+      --card-background: #333333;
+      --input-background: #444444;
+      --button-background: #ffffff;
+      --button-text-color: #000000;
+      --footer-background: #2a2a2a;
+    }
+
+    /* Botão para alternar o tema */
+    .theme-toggle {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      padding: 10px;
+      background-color: #f5f5f5;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Cabeçalho -->
+  <div class="header">
+    <span>23:53</span>
+    <div class="header-icons">
+      <span>PS</span>
+    </div>
+    <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
+  </div>
+
+  <!-- Seção de Saldo -->
+  <div class="saldo-section">
+    <h2>Grana na conta</h2>
+    <h1>R$ <span id="valor-saldo">0,00</span></h1>
+    <p class="grana-total">Grana total: R$ <span id="valor-total">0,00</span></p>
+  </div>
+
+  <!-- Input para valor -->
+  <div style="margin: 0 20px;">
+    <input type="number" id="valor" placeholder="Valor da transação">
+  </div>
+
+  <!-- Botões de Ação: Adicionar, Remover Dinheiro e Resetar -->
+  <div class="acoes">
+    <button class="btn-action" onclick="adicionarDinheiro()">Adicionar Dinheiro</button>
+    <button class="btn-action" onclick="removerDinheiro()">Remover Dinheiro</button>
+    <button class="btn-reset" onclick="resetarValores()">Resetar Valores</button>
+  </div>
+
+  <!-- Seção Cartão de Débito -->
+  <div class="card-section">
+    <h3>Peça já o seu cartão de débito</h3>
+    <button class="btn-cartao">Pedir cartão</button>
+  </div>
+
+  <!-- Rodapé de Navegação -->
+  <div class="footer">
+    <div class="footer-item">
+      <p>Início</p>
+    </div>
+    <div class="footer-item">
+      <p>Pagar</p>
+    </div>
+    <div class="footer-item">
+      <p>Notificação</p>
+    </div>
+  </div>
+
+  <!-- Scripts de funcionalidade -->
+  <script>
+    let saldo = parseFloat(localStorage.getItem('saldo')) || 0;
+    let total = parseFloat(localStorage.getItem('total')) || 0;
+
+    document.getElementById('valor-saldo').innerText = saldo.toFixed(2);
+    document.getElementById('valor-total').innerText = total.toFixed(2);
+
+    function atualizarValores() {
+      document.getElementById('valor-saldo').innerText = saldo.toFixed(2);
+      document.getElementById('valor-total').innerText = total.toFixed(2);
+      localStorage.setItem('saldo', saldo);
+      localStorage.setItem('total', total);
+    }
+
+    function adicionarDinheiro() {
+      const valor = parseFloat(document.getElementById('valor').value);
+      if (!isNaN(valor) && valor > 0) {
+        saldo += valor;
+        total += valor;
+        atualizarValores();
+      }
+    }
+
+function removerDinheiro() {
+      const valor = parseFloat(document.getElementById('valor').value);
+      if (!isNaN(valor) && valor > 0 && saldo >= valor) {
+        saldo -= valor;
+        atualizarValores();
+      }
+    }
+
+    function resetarValores() {
+      saldo = 0;
+      total = 0;
+      atualizarValores();
+      localStorage.removeItem('saldo');
+      localStorage.removeItem('total');
+      alert("Valores resetados com sucesso!");
+    }
+
+    function toggleTheme() {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', newTheme);
+    }
+  </script>
+
+</body>
+</html>
